@@ -1,11 +1,15 @@
 package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -84,6 +88,22 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
+        final Map<R, Set<T>> map = new HashMap<>();
+        list.forEach(e-> {
+            map.merge(
+                op.apply(e), // ottengo chiave di e
+                // nuovo elemento che voglio aggiungere alla mappa con chiave sopra.
+                // HashSet in questo caso sia aspetta una collezione di un solo elemento
+                // fornita usando Collections.singleton(e)
+                new HashSet<>(Collections.singleton(e)),
+                // se a quella chiave era precedentemente associata un altro valore
+                // lo aggiunge alla vecchia collezione. 
+                (t, u) -> {
+                    t.addAll(u);
+                    return t;
+            });
+        });
+
         return null;
     }
 
